@@ -1,13 +1,14 @@
-import OpenAI from 'openai';
 import 'dotenv/config';
+import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
+  apiKey: process.env.NVIDIA_API_KEY,
+  baseURL: 'https://integrate.api.nvidia.com/v1',
 });
 
-const response = await client.responses.create({
-  model: 'gpt-4o-mini',
-  input: 'Joke related to computer science',
+const response = await client.chat.completions.create({
+  model: "openai/gpt-oss-120b",
+  messages: [{ role: "user", content: "Joke related to computer science" }]
 });
 
-console.log(response.output_text);
+console.log(response.choices[0].message.content);
