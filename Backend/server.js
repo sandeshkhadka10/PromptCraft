@@ -30,27 +30,4 @@ app.listen(PORT, ()=>{
 });
 
 app.post("/test",async(req,res)=>{
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.NVIDIA_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: "openai/gpt-oss-120b",
-      messages: [{
-        role: "user",
-        content: req.body.message
-      }]
-    })
-  };
-
-  try{
-    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions",options);
-    const data = await response.json();
-    console.log(data.choices[0].message.content); // reply yesma aako cha
-    res.send(data.choices[0].message.content); // yoh reply chai frontend ma pataune
-  }catch(error){
-    console.log(error);
-  }
 });
