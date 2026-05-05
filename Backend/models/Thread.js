@@ -1,6 +1,6 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-const MessageSchema = new Mongoose.Schema({
+const MessageSchema = new mongoose.Schema({
     role:{
         type: String,
         enum: ["user","assistant"],
@@ -16,7 +16,7 @@ const MessageSchema = new Mongoose.Schema({
     }
 });
 
-const ThreadSchema = new Mongoose.Schema ({
+const ThreadSchema = new mongoose.Schema ({
     threadId:{
         type: String,
         required: true,
