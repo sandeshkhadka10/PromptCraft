@@ -1,14 +1,14 @@
 import "./Sidebar.css";
-import logo from "../../assets/blacklogo.png"; 
+import logo from "../../assets/Untitled.png";
 
 function Sidebar() {
     return (
         <div>
-            <section>
+            <section className="sidebar">
                 {/* New Chat Button */}
                 <button>
-                    <img src={logo} alt="logo" />
-                    <i className="fa-solid fa-pen-to-square"></i>
+                    <img src={logo} className="logo" alt="logo" />
+                    <span><i className="fa-solid fa-pen-to-square"></i></span>
                 </button>
 
                 {/* History */}
@@ -19,7 +19,7 @@ function Sidebar() {
                 </ul>
 
                 {/* Sign */}
-                <div>
+                <div className="sign">
                     <p>By PromptCraft</p>
                 </div>
             </section>
