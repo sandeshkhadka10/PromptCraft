@@ -1,36 +1,42 @@
 import Chat from "../Chat/Chat.jsx";
 import "./ChatWindow.css";
-import {MyContext} from "../../context/MyContext.jsx";
-import {useContext} from "react";
+import { MyContext } from "../../context/MyContext.jsx";
+import { useContext, useState } from "react";
+import { ScaleLoader } from "react-spinners";
 
-function ChatWindow(){
+function ChatWindow() {
     // since we pass our message and get reply here, that's why we are passing it here
-    const {prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId} = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId } = useContext(MyContext);
 
-    const getReply = async()=>{
+    // using it for loading spinner and until submit is not done it is not triggered
+    const [loading,setLoading] = useState(false);
+
+    const getReply = async () => {
+        setLoading(true); // when submit button is pressed the loader is triggered
         const options = {
             method: "POST",
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json"
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 message: prompt,
                 threadId: currThreadId
             })
         };
 
-        try{
+        try {
             // here the api is hitting the POST of the backend
             const response = await fetch("http://localhost:8080/api/chat", options);
             const res = await response.json();
             console.log(res);
             setReply(res.reply);
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
+        setLoading(false); // after the reply is sent by the model the loader is not triggered
     }
 
-    return(
+    return (
         <div className="chatWindow">
             {/* Navbar */}
             <div className="navbar">
@@ -41,12 +47,13 @@ function ChatWindow(){
             </div>
 
             {/* Chat */}
-            <Chat/>
+            <Chat />
 
             {/* ChatInput */}
+            <ScaleLoader color="#fff" loading={loading}/>
             <div className="chatInput">
                 <div className="inputBox">
-                    <input placeholder="Ask anything" value={prompt} onChange={(e)=>setPrompt(e.target.value)} onKeyDown={(e)=>e.key === 'Enter'?getReply(): ''}>
+                    <input placeholder="Ask anything" value={prompt} onChange={(e) => setPrompt(e.target.value)} onKeyDown={(e) => e.key === 'Enter' ? getReply() : ''}>
                     </input>
                     <div id="submit" onClick={getReply}>
                         <i className="fa-solid fa-paper-plane"></i>
@@ -56,6 +63,7 @@ function ChatWindow(){
                     PromptCraft can make mistake. Check important info. See Cookie Preferences.
                 </p>
             </div>
+
         </div>
     )
 }
