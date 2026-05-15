@@ -1,12 +1,12 @@
 import Chat from "../Chat/Chat.jsx";
 import "./ChatWindow.css";
 import { MyContext } from "../../context/MyContext.jsx";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 
 function ChatWindow() {
     // since we pass our message and get reply here, that's why we are passing it here
-    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId } = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId, prevChats, setPrevChats } = useContext(MyContext);
 
     // using it for loading spinner and until submit is not done it is not triggered
     const [loading,setLoading] = useState(false);
@@ -28,13 +28,30 @@ function ChatWindow() {
             // here the api is hitting the POST of the backend
             const response = await fetch("http://localhost:8080/api/chat", options);
             const res = await response.json();
-            console.log(res);
+            // console.log(res);
             setReply(res.reply);
         } catch (err) {
             console.log(err);
         }
         setLoading(false); // after the reply is sent by the model the loader is not triggered
     }
+
+    // Append new chat to prevChats
+    useEffect(()=>{
+        if(prompt && reply){
+            setPrevChats(prevChats => (
+                [...prevChats, {
+                    role: "user",
+                    content: prompt
+                },{
+                    role: "assistant",
+                    content: reply
+                }
+            ]
+            ));
+        }
+        setPrompt("");
+    },[reply]);
 
     return (
         <div className="chatWindow">
@@ -47,7 +64,7 @@ function ChatWindow() {
             </div>
 
             {/* Chat */}
-            <Chat />
+            <Chat/>
 
             {/* ChatInput */}
             <ScaleLoader color="#fff" loading={loading}/>

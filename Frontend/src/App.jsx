@@ -12,6 +12,12 @@ function App() {
   // when we pass new message through frontend it should
   // have threadId, so for that we are passing useState from here
   const [currThreadId,setCurrThreadId] = useState(uuidv1());
+
+  // here we are storing our previous chat in array format i.e previous chat of current threads
+  const [prevChats, setPrevChats] = useState([]);
+
+  // it tracks whether new chat is being created or not
+  const [newChat,setNewChat] = useState(true); // here true means when we start our app we always start with the new one
   
   // passing the value using contextAPI
   const providerValues = {
@@ -20,15 +26,19 @@ function App() {
     reply,
     setReply,
     currThreadId,
-    setCurrThreadId
+    setCurrThreadId,
+    prevChats,
+    setPrevChats,
+    newChat,
+    setNewChat
   };
 
   return (
     <>
       <div className='app'>
         <MyContext.Provider value={providerValues}>
-          <Sidebar></Sidebar>
-          <ChatWindow></ChatWindow>
+          <Sidebar/>
+          <ChatWindow/>
         </MyContext.Provider>
       </div>
 
