@@ -68,7 +68,7 @@ router.post("/chat",async(req,res)=>{
 
     try{
         // check whether the old threadId exits or not
-        const thread = await Thread.findOne({threadId});
+        let thread = await Thread.findOne({threadId});
 
         if(!thread){
             // if the threadId doesn't exits then create the new threadId
