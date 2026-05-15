@@ -8,7 +8,7 @@ function ChatWindow(){
             <div className="navbar">
                 <span>PromptCraft<i className="fa-solid fa-chevron-down"></i></span>
                 <div className="userIconDiv">
-                    <span><i className="fa-solid fa-user"></i></span>
+                    <span className="userIcon"><i className="fa-solid fa-user"></i></span>
                 </div>
             </div>
 
@@ -17,7 +17,7 @@ function ChatWindow(){
 
             {/* ChatInput */}
             <div className="chatInput">
-                <div className="userInput">
+                <div className="inputBox">
                     <input placeholder="Ask anything">
                     </input>
                     <div id="submit">
