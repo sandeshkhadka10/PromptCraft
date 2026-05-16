@@ -18,6 +18,9 @@ function App() {
 
   // it tracks whether new chat is being created or not
   const [newChat,setNewChat] = useState(true); // here true means when we start our app we always start with the new one
+
+  // it is used to show the individual thread history
+  const [allThreads, setAllThreads] = useState([])
   
   // passing the value using contextAPI
   const providerValues = {
@@ -30,7 +33,9 @@ function App() {
     prevChats,
     setPrevChats,
     newChat,
-    setNewChat
+    setNewChat,
+    allThreads,
+    setAllThreads
   };
 
   return (
