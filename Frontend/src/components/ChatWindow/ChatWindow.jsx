@@ -11,6 +11,9 @@ function ChatWindow() {
     // using it for loading spinner and until submit is not done it is not triggered
     const [loading,setLoading] = useState(false);
 
+    // for creating dropdown of profile
+    const [isOpen, setIsOpen] = useState(false);
+
     const getReply = async () => {
         setLoading(true); // when submit button is pressed the loader is triggered
         setNewChat(false); // when new chat start and we give prompt then "Start a New Chat" disappear
@@ -54,15 +57,29 @@ function ChatWindow() {
         setPrompt("");
     },[reply]);
 
+    const handleProfileClick = () =>{
+        setIsOpen(!isOpen);
+    }
+
     return (
         <div className="chatWindow">
             {/* Navbar */}
             <div className="navbar">
                 <span>PromptCraft<i className="fa-solid fa-chevron-down"></i></span>
-                <div className="userIconDiv">
+                <div className="userIconDiv" onClick={handleProfileClick}>
                     <span className="userIcon"><i className="fa-solid fa-user"></i></span>
                 </div>
             </div>
+
+            {/* For creating Profile Dropdown */}
+            {
+                isOpen && 
+                <div className="dropDown">
+                    <div className="dropDownItem">Settings <i className="fa-solid fa-gear"></i></div>
+                    <div className="dropDownItem">Upgrade Plan <i className="fa-solid fa-cloud-arrow-up"></i></div>
+                    <div className="dropDownItem">Log out <i className="fa-solid fa-arrow-right-from-bracket"></i></div>
+                </div>
+            }
 
             {/* Chat */}
             <Chat/>
