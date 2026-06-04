@@ -84,7 +84,7 @@ function Sidebar() {
                 <ul className="history">
                     {
                         allThreads?.map((thread,idx)=>(
-                            <li key={idx} onClick={()=>changeThread(thread.threadId)}>{thread.title}<i className="fa-solid fa-trash" onClick={(e) => {e.stopPropagation(); deleteThread(thread.threadId)}}></i></li> // e.stopPropagation stops the parent component event to occur i.e if delete is clicked then then it doesn't trigger the list
+                            <li key={idx} className={thread.threadId === currThreadId? "highlighted":""} onClick={()=>changeThread(thread.threadId)}>{thread.title}<i className="fa-solid fa-trash" onClick={(e) => {e.stopPropagation(); deleteThread(thread.threadId)}}></i></li> // e.stopPropagation stops the parent component event to occur i.e if delete is clicked then then it doesn't trigger the list
                         ))
                     }
                 </ul>
