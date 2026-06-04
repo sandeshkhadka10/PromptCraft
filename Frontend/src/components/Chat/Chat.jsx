@@ -13,6 +13,13 @@ function Chat() {
 
     // here we seperate the latest reply so that we can add typing effect in it
     useEffect(() => {
+        // this is for displaying the old message when user click the old message
+        // i.e if user click old message then display it instantly without any typing effect
+        if (reply == null) {
+            setLatestReply(null);
+            return;
+        }
+
         // first check whether there is prev chats or not
         if (!prevChats?.length) {
             return;
@@ -49,13 +56,41 @@ function Chat() {
                         </div>
                     )
                 }
-                {/* These is done to add the typing effect */}
+
+                {/* Combining both i.e how to show the message for new chat and history message  */}
                 {
+                    prevChats.length > 0 && (
+                        <>
+                            {
+                                latestReply === null ? (
+                                    <div className="gptDiv" key={"non-typing"}>
+                                        <ReactMarkdown rehypePlugins={rehypeHighlight}>{prevChats[prevChats.length - 1].content}</ReactMarkdown>
+                                    </div>
+                                ) : (
+                                    <div className="gptDiv" key={"typing"}>
+                                        <ReactMarkdown rehypePlugins={rehypeHighlight}>{latestReply}</ReactMarkdown>
+                                    </div>
+                                )
+                            }
+                        </>
+                    )
+                }
+                
+                {/* These is done to add the typing effect for the new chat */}
+                {/* {
                     prevChats.length > 0 && latestReply !== null &&
                     <div className="gptDiv" key={"typing"}>
                         <ReactMarkdown rehypePlugins={rehypeHighlight}>{latestReply}</ReactMarkdown>
                     </div>
-                }
+                } */}
+
+                {/* These is done to load the message when user click the history */}
+                {/* {
+                    prevChats.length > 0 && latestReply === null &&
+                    <div className="gptDiv" key={"non-typing"}>
+                        <ReactMarkdown rehypePlugins={rehypeHighlight}>{prevChats[prevChats.length - 1].content}</ReactMarkdown>
+                    </div>
+                } */}
 
                 {/* This is Static Data that is done to show how can we display the user prompt and reply of the model*/}
                 {/* user message */}
@@ -67,7 +102,7 @@ function Chat() {
                 {/* <div className="gptDiv">
                     <p className="gptMessage">GPT Generated Message</p>
                 </div> */}
-            </div>
+            </div >
         </>
     )
 }

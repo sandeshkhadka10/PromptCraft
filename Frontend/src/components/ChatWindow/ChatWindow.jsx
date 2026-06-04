@@ -6,13 +6,14 @@ import { ScaleLoader } from "react-spinners";
 
 function ChatWindow() {
     // since we pass our message and get reply here, that's why we are passing it here
-    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId, prevChats, setPrevChats } = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId, prevChats, setPrevChats, newChat, setNewChat } = useContext(MyContext);
 
     // using it for loading spinner and until submit is not done it is not triggered
     const [loading,setLoading] = useState(false);
 
     const getReply = async () => {
         setLoading(true); // when submit button is pressed the loader is triggered
+        setNewChat(false); // when new chat start and we give prompt then "Start a New Chat" disappear
         const options = {
             method: "POST",
             headers: {

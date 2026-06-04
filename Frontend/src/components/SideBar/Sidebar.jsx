@@ -37,6 +37,22 @@ function Sidebar() {
         setPrevChats([]);
     };
 
+    // when previous chat history is clicked, it changed the threadId accordingly
+    const changeThread = async (newThreadId) =>{
+        setCurrThreadId(newThreadId);
+
+        try{
+            const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`);
+            const res = await response.json();
+            // console.log(res);
+            setPrevChats(res);
+            setNewChat(false);
+            setReply(null);
+        }catch(err){
+            console.log(err);
+        }
+    };
+
     return (
         <div>
             <section className="sidebar">
@@ -50,7 +66,7 @@ function Sidebar() {
                 <ul className="history">
                     {
                         allThreads?.map((thread,idx)=>(
-                            <li key={idx}>{thread.title}</li>
+                            <li key={idx} onClick={()=>changeThread(thread.threadId)}>{thread.title}</li>
                         ))
                     }
                 </ul>
