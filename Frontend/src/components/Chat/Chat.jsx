@@ -16,8 +16,11 @@ function Chat() {
         // this is for displaying the old message when user click the old message
         // i.e if user click old message then display it instantly without any typing effect
         if (reply == null) {
-            setLatestReply(null);
-            return;
+            const resetTimer = setTimeout(() => {
+                setLatestReply(null);
+            }, 0);
+
+            return () => clearTimeout(resetTimer);
         }
 
         // first check whether there is prev chats or not

@@ -1,15 +1,16 @@
 .sidebar{
-    background-color: #171717;
-    color: #b4b4b4;
+    background: var(--sidebar-bg);
+    color: var(--text-primary);
     height: 100vh;
     width: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    border-right: 1px solid var(--sidebar-border);
 }
 
-button{
+.newChatButton{
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -17,24 +18,40 @@ button{
     padding: 15px;
     border-radius: 15px;
     background-color: transparent;
-    border: solid rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
+    border: 1px solid var(--sidebar-border);
     cursor: pointer;
 }
 
 .logo{
     height:40px;
     width:40px;
-    background-color: white;
+    background-color: var(--surface-solid);
     border-radius: 50%;
     object-fit: cover;
 }
 
-button span{
+.newChatButton span{
     font-size: 20px;
 }
 
-button:hover{
-    background-color: rgba(180,180,180,0.05);
+.newChatButton i{
+    color: currentColor;
+}
+
+body[data-theme="light"] .sidebar,
+body[data-theme="light"] .sidebar *{
+    color: #000;
+}
+
+body[data-theme="light"] .newChatButton,
+body[data-theme="light"] .newChatButton span,
+body[data-theme="light"] .newChatButton i{
+    color: #000;
+}
+
+.newChatButton:hover{
+    background-color: var(--panel);
 }
 
 .history{
@@ -43,35 +60,7 @@ button:hover{
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-
-    transition: scrollbar-color 0.3s ease;
-}
-
-/* Chrome, Edge, Safari */
-.history::-webkit-scrollbar{
-    width: 8px;
-}
-
-.history::-webkit-scrollbar-track{
-    background: transparent;
-}
-
-.history::-webkit-scrollbar-thumb{
-    background: transparent;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-}
-
-/* Show scrollbar on hover */
-.history:hover{
-    scrollbar-color: #555 transparent;
-}
-
-.history:hover::-webkit-scrollbar-thumb{
-    background: #555;
+    scrollbar-width: none;
 }
 
 .history li{
@@ -85,7 +74,7 @@ button:hover{
 }
 
 .history li:hover{
-    background-color: rgba(180,180,180,0.05);
+    background-color: var(--panel);
     border-radius: 10px;
 }
 
@@ -94,7 +83,7 @@ button:hover{
     padding: 15px;
     font-size: 14px;
     text-align:center;
-    border-top: solid 0.25px rgba(255,255,255,0.5);
+    border-top: solid 0.25px var(--sidebar-border);
 }
 
 .fa-trash{
@@ -105,15 +94,47 @@ button:hover{
 
 .history li:hover .fa-trash{
     opacity: 1;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .fa-trash:hover{
-    color: #f87171 !important;
+    color: #ef4444 !important;
 }
 
 /* this is for the thread to highlight that is in history */
 .highlighted{
-    background-color: rgba(180,180,180,0.05);
+    background-color: var(--panel);
     border-radius: 10px;
+}
+
+@media (max-width: 900px){
+    .sidebar{
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 30;
+        width: min(84vw, 320px);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: var(--shadow);
+    }
+
+    .sidebar.open{
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 520px){
+    .sidebar{
+        width: 88vw;
+    }
+
+    .history{
+        margin: 8px;
+        padding: 10px;
+    }
+
+    .history li{
+        font-size: 13px;
+    }
 }

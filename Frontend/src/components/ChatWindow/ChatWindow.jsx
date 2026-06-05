@@ -6,7 +6,7 @@ import { ScaleLoader } from "react-spinners";
 
 function ChatWindow() {
     // since we pass our message and get reply here, that's why we are passing it here
-    const { prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat } = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat, theme, toggleTheme, isSidebarOpen, setIsSidebarOpen } = useContext(MyContext);
 
     // using it for loading spinner and until submit is not done it is not triggered
     const [loading,setLoading] = useState(false);
@@ -62,13 +62,27 @@ function ChatWindow() {
         setIsOpen(!isOpen);
     }
 
+    const handleSidebarToggle = () => {
+        setIsSidebarOpen(prevState => !prevState);
+    };
+
     return (
         <div className="chatWindow">
             {/* Navbar */}
             <div className="navbar">
-                <span>PromptCraft</span>
-                <div className="userIconDiv" onClick={handleProfileClick}>
-                    <span className="userIcon"><i className="fa-solid fa-user"></i></span>
+                <div className="navbarLeft">
+                    <button type="button" className="iconButton menuButton" onClick={handleSidebarToggle} aria-label={isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}>
+                        <i className="fa-solid fa-bars"></i>
+                    </button>
+                    <span className="brand">PromptCraft</span>
+                </div>
+                <div className="navbarActions">
+                    <button type="button" className="iconButton themeButton" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+                        <i className={`fa-solid ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`}></i>
+                    </button>
+                    <button type="button" className="iconButton userIconDiv" onClick={handleProfileClick} aria-label="Open profile menu">
+                        <span className="userIcon"><i className="fa-solid fa-user"></i></span>
+                    </button>
                 </div>
             </div>
 
@@ -86,7 +100,7 @@ function ChatWindow() {
 
             {loading && (
                 <div className="loadingOverlay" aria-live="polite" aria-busy="true">
-                    <ScaleLoader color="#fff" loading={loading} />
+                    <ScaleLoader color="var(--accent)" loading={loading} />
                 </div>
             )}
 
