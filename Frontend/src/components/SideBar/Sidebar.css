@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
 }
 
 button{
@@ -39,7 +40,38 @@ button:hover{
 .history{
     margin: 10px;
     padding: 15px;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    transition: scrollbar-color 0.3s ease;
+}
+
+/* Chrome, Edge, Safari */
+.history::-webkit-scrollbar{
+    width: 8px;
+}
+
+.history::-webkit-scrollbar-track{
+    background: transparent;
+}
+
+.history::-webkit-scrollbar-thumb{
+    background: transparent;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Show scrollbar on hover */
+.history:hover{
+    scrollbar-color: #555 transparent;
+}
+
+.history:hover::-webkit-scrollbar-thumb{
+    background: #555;
 }
 
 .history li{

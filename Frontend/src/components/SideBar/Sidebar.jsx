@@ -5,7 +5,7 @@ import {MyContext} from "../../context/MyContext.jsx";
 import {v1 as uuidv1} from "uuid";
 
 function Sidebar() {
-    const { allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats } = useContext(MyContext);
+    const { allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats, reply } = useContext(MyContext);
 
     // fetching the threads history
     const getAllThreads = async () => {
@@ -26,14 +26,14 @@ function Sidebar() {
     // fetch all the history data of curr thread
     useEffect(()=>{
         getAllThreads();
-    },[currThreadId]);
+    },[currThreadId, reply]);
 
     // when we click the logo or icon then new chat section appears
     const createNewChat = () => {
         setNewChat(true);
         setPrompt("");
         setReply(null);
-        setCurrThreadId(uuidv1);
+        setCurrThreadId(uuidv1());
         setPrevChats([]);
     };
 
