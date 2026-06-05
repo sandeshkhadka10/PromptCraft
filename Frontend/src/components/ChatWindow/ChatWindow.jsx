@@ -6,7 +6,7 @@ import { ScaleLoader } from "react-spinners";
 
 function ChatWindow() {
     // since we pass our message and get reply here, that's why we are passing it here
-    const { prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId, prevChats, setPrevChats, newChat, setNewChat } = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat } = useContext(MyContext);
 
     // using it for loading spinner and until submit is not done it is not triggered
     const [loading,setLoading] = useState(false);
@@ -40,22 +40,23 @@ function ChatWindow() {
         setLoading(false); // after the reply is sent by the model the loader is not triggered
     }
 
-    // Append new chat to prevChats
-    useEffect(()=>{
-        if(prompt && reply){
-            setPrevChats(prevChats => (
-                [...prevChats, {
+    // Append new chat to prevChats only after the reply arrives
+    useEffect(() => {
+        if (prompt && reply) {
+            setPrevChats(prevChats => ([
+                ...prevChats,
+                {
                     role: "user",
                     content: prompt
-                },{
+                },
+                {
                     role: "assistant",
                     content: reply
                 }
-            ]
-            ));
+            ]));
+            setPrompt("");
         }
-        setPrompt("");
-    },[reply]);
+    }, [reply, prompt, setPrevChats, setPrompt]);
 
     const handleProfileClick = () =>{
         setIsOpen(!isOpen);
@@ -65,7 +66,7 @@ function ChatWindow() {
         <div className="chatWindow">
             {/* Navbar */}
             <div className="navbar">
-                <span>PromptCraft<i className="fa-solid fa-chevron-down"></i></span>
+                <span>PromptCraft</span>
                 <div className="userIconDiv" onClick={handleProfileClick}>
                     <span className="userIcon"><i className="fa-solid fa-user"></i></span>
                 </div>
@@ -75,17 +76,21 @@ function ChatWindow() {
             {
                 isOpen && 
                 <div className="dropDown">
-                    <div className="dropDownItem">Settings <i className="fa-solid fa-gear"></i></div>
-                    <div className="dropDownItem">Upgrade Plan <i className="fa-solid fa-cloud-arrow-up"></i></div>
-                    <div className="dropDownItem">Log out <i className="fa-solid fa-arrow-right-from-bracket"></i></div>
+                    <div className="dropDownItem">Signup/Login</div>
+                    <div className="dropDownItem">Log out</div>
                 </div>
             }
 
             {/* Chat */}
             <Chat/>
 
+            {loading && (
+                <div className="loadingOverlay" aria-live="polite" aria-busy="true">
+                    <ScaleLoader color="#fff" loading={loading} />
+                </div>
+            )}
+
             {/* ChatInput */}
-            <ScaleLoader color="#fff" loading={loading}/>
             <div className="chatInput">
                 <div className="inputBox">
                     <input placeholder="Ask anything" value={prompt} onChange={(e) => setPrompt(e.target.value)} onKeyDown={(e) => e.key === 'Enter' ? getReply() : ''}>

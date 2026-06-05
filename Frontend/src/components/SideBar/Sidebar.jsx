@@ -75,9 +75,9 @@ function Sidebar() {
         <div>
             <section className="sidebar">
                 {/* New Chat Button */}
-                <button onClick={createNewChat}>
+                <button>
                     <img src={logo} className="logo" alt="logo" />
-                    <span><i className="fa-solid fa-pen-to-square"></i></span>
+                    <span><i className="fa-solid fa-pen-to-square" onClick={createNewChat}></i></span>
                 </button>
 
                 {/* History */}
